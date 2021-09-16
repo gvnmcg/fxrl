@@ -2,6 +2,7 @@ package engine;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -31,23 +32,16 @@ public abstract class AbstractGame {
 
     public AbstractGame(Stage stage, int width, int height) {
 
+        this.inputHandler = new InputHandler(stage, this);
+
         //inputHandler
         Group root = new Group();
         stage.setScene(new Scene(root, width, height));
 
-        //input handling
-        this.inputHandler = new InputHandler(root, this);
-
-//        stage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent event) {
-//                handleKeyPress(event);
-//            }
-//        });
-
-
         //renderer
         Canvas canvas = new Canvas(width, height);
+
+        canvas.addEventHandler(KeyEvent.KEY_PRESSED, KeyEvent::getCode);
         this.g = canvas.getGraphicsContext2D();
         this.width = canvas.getWidth();
         this.height = canvas.getHeight();
@@ -67,14 +61,14 @@ public abstract class AbstractGame {
         };
 
     }
-
-    public AbstractGame(Group root, GraphicsContext g) {
-        this.g = g;
-        width = g.getCanvas().getWidth();
-        height = g.getCanvas().getHeight();
-
-        inputHandler = new InputHandler(root, this);
-    }
+//
+//    public AbstractGame(Group root, GraphicsContext g) {
+//        this.g = g;
+//        width = g.getCanvas().getWidth();
+//        height = g.getCanvas().getHeight();
+//
+//        inputHandler = new InputHandler(root, this);
+//    }
 
     public void renderBackground() {
 

@@ -14,7 +14,17 @@ public class GameContainer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        new RLGame(primaryStage);
+
+        int SCALE = 20;
+        int NUM_H = 30;
+        int NUM_W = 20;
+
+
+//    final static int WIDTH = 600;
+//    final static int HEIGHT = 400;
+        int WIDTH = NUM_W * SCALE;
+        int HEIGHT = NUM_H * SCALE;
+        new RLGame(primaryStage, WIDTH, HEIGHT);
     }
 
     public static void main(String[] args) {

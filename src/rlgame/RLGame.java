@@ -5,10 +5,7 @@ import engine.GameData;
 import engine.GameObject;
 import engine.GameScreen;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -39,15 +36,23 @@ public class RLGame extends AbstractGame {
     private boolean readLevelFlag = false;
 
     final private int SCALE = 20;
+    final private int NUM_H = 30;
+    final private int NUM_W = 20;
+
+
+//    final static int WIDTH = 600;
+//    final static int HEIGHT = 400;
+    final int WIDTH = NUM_W * SCALE;
+    final int HEIGHT = NUM_H * SCALE;
 
     boolean renderDebugflag = true;
     boolean DEBUG = true;
     String debugData = "debug";
 
-    RLGame(Stage stage) {
-        super(stage, RLRenderer.WIDTH, RLRenderer.HEIGHT);
-        gameData = new GameData(RLRenderer.WIDTH, RLRenderer.HEIGHT);
-        rlRenderer = new RLRenderer(g, RLRenderer.WIDTH, RLRenderer.HEIGHT, gameData );
+    RLGame(Stage stage, int WIDTH, int HEIGHT)  {
+        super(stage, WIDTH, HEIGHT);
+        gameData = new GameData(WIDTH, HEIGHT);
+        rlRenderer = new RLRenderer(g, WIDTH, HEIGHT, gameData );
 
         //spawn player
         gameData.addObject(RLGameData.PLAYER, player);
@@ -57,15 +62,27 @@ public class RLGame extends AbstractGame {
 
         // 600 / 20 = 30,
         // 20 px, #30
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < NUM_W; i++) {
             //400 / 20 = 20
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < NUM_H; j++) {
 
                 go = new GameObject( i, j, 15, 15);
                 gameData.addObject(RLGameData.MARK, go );
             }
         }
         System.out.println("list size "+gameData.getList(RLGameData.MARK).size());
+//
+//        // 600 / 20 = 30,
+//        // 20 px, #30
+//        for (int i = 0; i < NUM_W; i++) {
+//            //400 / 20 = 20
+//            for (int j = 0; j < NUM_H; j++) {
+//
+//                go = new GameObject( i, j, 15, 15);
+//                gameData.addObject(RLGameData.MARK, go );
+//            }
+//        }
+//        System.out.println("list size "+gameData.getList(RLGameData.MARK).size());
 
         timer.start();
 
@@ -99,6 +116,8 @@ public class RLGame extends AbstractGame {
         //render all relevent game data
         String key = RLGameData.MARK;
         rlRenderer.renderList(key);
+
+        rlRenderer.renderList(RLGameData.PLAYER);
 
         // test marker
         g.setFill(Color.LIGHTGREEN);
@@ -137,9 +156,9 @@ public class RLGame extends AbstractGame {
             return;
         }
 
-        if (event.getButton() == MouseButton.PRIMARY) {
+//        if (event.getButton() == MouseButton.PRIMARY) {
 //            handleMove(event);
-        }
+//        }
     }
 
     @Override
@@ -152,6 +171,33 @@ public class RLGame extends AbstractGame {
 
         System.out.println(event);
 
+        if (event.getCode().equals(KeyCode.NUMPAD9)) {
+            player.move(1, -1);//NE
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD8)) {
+            player.move(0, -1);//N
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD7)) {
+            player.move(-1, -1);//NW
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD6)) {
+            player.move(1, 0);//E
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD5)) {
+            player.move(0, 0);//-
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD4)) {
+            player.move(-1, 0);//W
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD3)) {
+            player.move(1, 1);//SE
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD2)) {
+            player.move(0, 1);//S
+        }
+        if (event.getCode().equals(KeyCode.NUMPAD1)) {
+            player.move(-1, 1);//SW
+        }
     }
 
     @Override

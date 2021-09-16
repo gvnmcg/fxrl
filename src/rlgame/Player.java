@@ -9,7 +9,7 @@ public class Player extends GameObject {
 
 
     @Override
-    public void move() {
-        super.move();
+    public void move(int x, int y) {
+        super.move(x, y);
     }
 }

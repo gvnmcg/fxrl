@@ -1,12 +1,9 @@
 package engine;
 
-import engine.propeties.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import java.util.HashMap;
 
 /**
  * representation of Any drawable, updateable game pieces
@@ -23,19 +20,20 @@ public class GameObject {
     private Rectangle rectangle;
     private boolean spent;
 
+    protected String dataType;
 
     public GameObject() {
 
     }
 
     public GameObject(int x, int y, int w, int h) {
-        this.x = (double)x;
-        this.y = (double)y;
+        this.x = x;
+        this.y = y;
 
 //        w = 50;
 //        h = 50;
         this.rectangle = new Rectangle(
-                (int)x, (int)y, (int)w, (int)h);
+                x, y, w, h);
     }
 
     public GameObject(double x, double y) {
@@ -59,9 +57,13 @@ public class GameObject {
 
 
     public void move() {
-        x += dx;
-        y += dy;
+        this.x += this.dx;
+        this.y += this.dy;
+    }
 
+    public void move(int dx, int dy) {
+        this.x += dx;
+        this.y += dy;
     }
 
 
@@ -75,7 +77,7 @@ public class GameObject {
     }
 
     public void update() {
-        move();
+        move(0, 0);
     }
 
     public double getX() {
